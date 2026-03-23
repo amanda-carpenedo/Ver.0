@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VER.O. — Segnala le frodi online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-primary:  #4DC87A;
+      --green-dark:     #3AAF65;
+      --green-light:    #6FD99A;
+      --green-deep:     #2E9455;
+      --green-night:    #1A2E24;
+      --green-gray:     #5A7066;
+      --bg-alt:         #F2F9F5;
+      --green-pastel:   #D4EDDA;
+      --white:          #FFFFFF;
+      --hero-gradient:  linear-gradient(135deg, #6FD99A 0%, #4DC87A 50%, #3AAF65 100%);
+
+      --font: 'Open Sans', sans-serif;
+      --radius: 16px;
+      --shadow: 0 4px 24px rgba(26,46,36,.10);
+      --shadow-card: 0 2px 16px rgba(26,46,36,.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      color: var(--green-night);
+      background: var(--white);
+      line-height: 1.6;
+      font-size: 17px;
+    }
+
+    img { display: block; max-width: 100%; }
+    a   { text-decoration: none; color: inherit; }
+
+    /* ─── TYPOGRAPHY ───────────────────────────────────────── */
+    h1, h2, h3, h4 {
+      font-family: var(--font);
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--green-night);
+    }
+
+    h1 { font-size: clamp(38px, 6vw, 64px); }
+    h2 { font-size: clamp(28px, 4vw, 42px); }
+    h3 { font-size: clamp(20px, 2.5vw, 26px); }
+
+    p  { color: var(--green-gray); font-size: 17px; line-height: 1.7; }
+
+    /* ─── LAYOUT UTILITIES ─────────────────────────────────── */
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section { padding: 96px 0; }
+    .section--alt { background: var(--bg-alt); }
+
+    .section-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      background: var(--green-pastel);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-header p { max-width: 580px; margin: 16px auto 0; }
+
+    /* ─── BUTTONS ──────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 100px;
+      transition: transform .15s, box-shadow .15s, background .15s;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--green-night);
+      color: var(--white);
+      padding: 16px 32px;
+      box-shadow: 0 4px 20px rgba(26,46,36,.3);
+    }
+    .btn-primary:hover { background: #0e1f18; box-shadow: 0 8px 28px rgba(26,46,36,.4); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--green-night);
+      padding: 15px 32px;
+      border: 2px solid rgba(26,46,36,.25);
+    }
+    .btn-outline:hover { border-color: var(--green-night); }
+
+    .btn-white {
+      background: var(--white);
+      color: var(--green-dark);
+      padding: 16px 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.12);
+    }
+    .btn-white:hover { background: #f0fdf5; box-shadow: 0 8px 28px rgba(0,0,0,.18); }
+
+    .btn-icon {
+      width: 44px; height: 44px; padding: 0;
+      background: rgba(255,255,255,.2);
+      color: var(--white);
+      border-radius: 50%;
+      justify-content: center;
+    }
+
+    /* ─── NAVBAR ───────────────────────────────────────────── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 18px 0;
+      transition: background .25s, box-shadow .25s;
+    }
+    .navbar.scrolled {
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(26,46,36,.08);
+    }
+    .navbar .container {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo img { height: 40px; }
+    .nav-links {
+      display: flex; align-items: center; gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 15px; font-weight: 600;
+      color: var(--green-night);
+      opacity: .75;
+      transition: opacity .15s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-cta { padding: 11px 24px; font-size: 15px; }
+
+    /* ─── HERO ─────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background: var(--hero-gradient);
+      display: flex; align-items: center;
+      overflow: hidden;
+      padding: 120px 0 80px;
+    }
+
+    .hero-mesh {
+      position: absolute; inset: 0;
+      background-image: url('assets/Vector.png');
+      background-size: cover;
+      background-position: center bottom;
+      opacity: .18;
+      pointer-events: none;
+    }
+
+    /* Subtle radial glow */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(255,255,255,.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero .container {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: rgba(255,255,255,.2);
+      border: 1px solid rgba(255,255,255,.35);
+      padding: 8px 16px;
+      border-radius: 100px;
+      backdrop-filter: blur(4px);
+      margin-bottom: 24px;
+    }
+    .hero-badge span { width: 8px; height: 8px; background: var(--white); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+
+    .hero-content h1 {
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .hero-content h1 em {
+      font-style: normal;
+      color: var(--green-night);
+    }
+
+    .hero-sub {
+      font-size: 19px;
+      color: rgba(255,255,255,.88);
+      margin-bottom: 40px;
+      line-height: 1.6;
+      max-width: 460px;
+    }
+
+    .hero-actions {
+      display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+    }
+
+    .hero-trust {
+      margin-top: 40px;
+      display: flex; align-items: center; gap: 12px;
+      color: rgba(255,255,255,.75); font-size: 14px; font-weight: 600;
+    }
+    .hero-trust-icons { display: flex; gap: -8px; }
+    .hero-trust-dot {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,.25);
+      border: 2px solid rgba(255,255,255,.5);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      margin-right: -10px;
+    }
+
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+    }
+
+    /* Browser mockup */
+    .browser-mockup {
+      width: 100%;
+      max-width: 480px;
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 32px 80px rgba(26,46,36,.28), 0 0 0 1px rgba(255,255,255,.3);
+      overflow: hidden;
+    }
+    .browser-bar {
+      background: #f1f3f4;
+      padding: 12px 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .browser-dot:nth-child(1) { background: #ff5f57; }
+    .browser-dot:nth-child(2) { background: #ffbd2e; }
+    .browser-dot:nth-child(3) { background: #28c840; }
+    .browser-url {
+      flex: 1; margin-left: 8px;
+      background: var(--white);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px; color: var(--green-gray);
+      font-family: var(--font);
+    }
+    .browser-body {
+      padding: 24px;
+      background: var(--white);
+    }
+
+    /* Fake product listing inside mockup */
+    .mock-product {
+      display: flex; gap: 16px;
+      padding: 16px;
+      border: 1.5px solid #eee;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .mock-product-img {
+      width: 72px; height: 72px;
+      background: var(--bg-alt);
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+    }
+    .mock-product-info { flex: 1; }
+    .mock-product-title { font-size: 13px; font-weight: 700; color: var(--green-night); margin-bottom: 4px; }
+    .mock-product-price { font-size: 11px; color: var(--green-gray); }
+    .mock-product-price strong { color: #e53e3e; font-size: 15px; }
+    .mock-product-price s { color: #aaa; }
+    .mock-alert-badge {
+      position: absolute; top: -8px; right: -8px;
+      background: #e53e3e; color: var(--white);
+      font-size: 10px; font-weight: 700;
+      padding: 4px 10px; border-radius: 100px;
+      letter-spacing: .04em;
+    }
+
+    .mock-ext-popup {
+      background: var(--hero-gradient);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .mock-ext-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(255,255,255,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .mock-ext-text { flex: 1; }
+    .mock-ext-title { font-size: 13px; font-weight: 700; color: var(--white); }
+    .mock-ext-sub   { font-size: 11px; color: rgba(255,255,255,.8); margin-top: 2px; }
+    .mock-ext-btn {
+      background: var(--white);
+      color: var(--green-dark);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 11px; font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font);
+    }
+
+    /* ─── STATS STRIP ──────────────────────────────────────── */
+    .stats-strip {
+      background: var(--green-night);
+      padding: 48px 0;
+    }
+    .stats-strip .container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: center;
+    }
+    .stat-item {}
+    .stat-number {
+      font-size: 42px; font-weight: 800;
+      color: var(--green-light);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 14px; font-weight: 600;
+      color: rgba(255,255,255,.6);
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    /* ─── PROBLEM ──────────────────────────────────────────── */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .problem-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .problem-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(26,46,36,.06);
+    }
+    .problem-card-icon { font-size: 28px; margin-bottom: 12px; }
+    .problem-card h4 { font-size: 15px; margin-bottom: 6px; }
+    .problem-card p  { font-size: 13px; line-height: 1.5; }
+    .problem-card.highlight {
+      background: var(--green-night);
+      grid-column: span 2;
+    }
+    .problem-card.highlight h4 { color: var(--white); }
+    .problem-card.highlight p  { color: rgba(255,255,255,.65); }
+    .problem-card.highlight .problem-card-icon { font-size: 32px; }
+
+    .problem-content h2 { margin-bottom: 20px; }
+    .problem-content p  { margin-bottom: 16px; }
+
+    .problem-stat {
+      display: flex; gap: 16px;
+      padding: 20px;
+      background: var(--green-pastel);
+      border-radius: var(--radius);
+      margin-top: 28px;
+      align-items: center;
+    }
+    .problem-stat-num {
+      font-size: 36px; font-weight: 800;
+      color: var(--green-dark);
+      line-height: 1; white-space: nowrap;
+    }
+    .problem-stat p { font-size: 14px; margin: 0; color: var(--green-gray); }
+
+    /* ─── HOW IT WORKS ─────────────────────────────────────── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 48px; left: calc(16.67% + 24px); right: calc(16.67% + 24px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--green-light), var(--green-dark));
+      z-index: 0;
+    }
+    .step { text-align: center; position: relative; z-index: 1; }
+    .step-number {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      background: var(--hero-gradient);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px;
+      font-size: 36px;
+      box-shadow: 0 8px 28px rgba(77,200,122,.4);
+      position: relative;
+    }
+    .step-number-badge {
+      position: absolute; bottom: -4px; right: -4px;
+      width: 28px; height: 28px;
+      background: var(--green-night);
+      color: var(--white);
+      border-radius: 50%;
+      font-size: 13px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--white);
+    }
+    .step h3 { margin-bottom: 12px; }
+    .step p  { font-size: 15px; }
+
+    /* ─── FEATURES ─────────────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid rgba(26,46,36,.07);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      box-shadow: var(--shadow-card);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(26,46,36,.12);
+    }
+    .feature-icon {
+      width: 56px; height: 56px;
+      background: var(--green-pastel);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 { font-size: 18px; margin-bottom: 10px; }
+    .feature-card p  { font-size: 15px; }
+
+    .ai-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700;
+      color: var(--green-dark);
+      background: var(--green-pastel);
+      padding: 4px 10px; border-radius: 100px;
+      margin-top: 14px;
+    }
+    .ai-badge::before { content: '✦'; font-size: 9px; }
+
+    /* ─── SOCIAL PROOF ─────────────────────────────────────── */
+    .social-proof { background: var(--green-night); }
+    .social-proof .section-label { color: var(--green-light); background: rgba(111,217,154,.15); }
+    .social-proof .section-header h2 { color: var(--white); }
+    .social-proof .section-header p  { color: rgba(255,255,255,.6); }
+
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .testimonial-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .testimonial-stars {
+      color: var(--green-light);
+      font-size: 14px;
+      margin-bottom: 14px;
+      letter-spacing: 2px;
+    }
+    .testimonial-text {
+      font-size: 15px;
+      color: rgba(255,255,255,.8);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .testimonial-author {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .testimonial-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--hero-gradient);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; color: var(--white);
+      flex-shrink: 0;
+    }
+    .testimonial-name { font-size: 14px; font-weight: 700; color: var(--white); }
+    .testimonial-role { font-size: 12px; color: rgba(255,255,255,.45); margin-top: 2px; }
+
+    .trust-logos {
+      display: flex; align-items: center; justify-content: center;
+      gap: 48px; flex-wrap: wrap;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .trust-logo-item {
+      font-size: 13px; font-weight: 700;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    /* ─── DEMO ─────────────────────────────────────────────── */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .demo-steps { display: flex; flex-direction: column; gap: 8px; }
+    .demo-step {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 2px solid transparent;
+      transition: border-color .2s, background .2s;
+      cursor: pointer;
+    }
+    .demo-step:hover, .demo-step.active {
+      border-color: var(--green-primary);
+      background: rgba(77,200,122,.05);
+    }
+    .demo-step-num {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: var(--green-pastel);
+      color: var(--green-dark);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 16px;
+    }
+    .demo-step.active .demo-step-num {
+      background: var(--hero-gradient);
+      color: var(--white);
+    }
+    .demo-step h4 { font-size: 16px; margin-bottom: 4px; }
+    .demo-step p  { font-size: 14px; }
+
+    .demo-screen {
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: 0 24px 64px rgba(26,46,36,.14), 0 0 0 1px rgba(26,46,36,.06);
+      overflow: hidden;
+    }
+    .demo-screen-top {
+      background: var(--hero-gradient);
+      padding: 20px 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .demo-screen-logo img { height: 32px; filter: brightness(0) invert(1); }
+    .demo-screen-title { color: var(--white); font-weight: 700; font-size: 15px; }
+    .demo-screen-body {
+      padding: 24px;
+    }
+    .demo-screen-row {
+      display: flex; gap: 12px; align-items: center;
+      padding: 12px;
+      border: 1px solid rgba(26,46,36,.07);
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .demo-screen-row-icon { font-size: 20px; }
+    .demo-screen-row-label { font-size: 13px; font-weight: 600; color: var(--green-night); }
+    .demo-screen-row-sub   { font-size: 11px; color: var(--green-gray); }
+    .demo-screen-row.success { border-color: var(--green-primary); background: rgba(77,200,122,.05); }
+    .demo-screen-row.success .demo-screen-row-label { color: var(--green-dark); }
+
+    /* ─── CTA FINAL ────────────────────────────────────────── */
+    .cta-final {
+      background: var(--hero-gradient);
+      position: relative; overflow: hidden;
+    }
+    .cta-final::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url('assets/Vector.png');
+      background-size: cover;
+      background-position: center;
+      opacity: .12;
+    }
+    .cta-final .container {
+      position: relative; z-index: 1;
+      text-align: center;
+    }
+    .cta-final h2 { color: var(--white); margin-bottom: 20px; }
+    .cta-final p  { color: rgba(255,255,255,.85); font-size: 18px; max-width: 560px; margin: 0 auto 40px; }
+    .cta-final-actions {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    }
+    .cta-microcopy {
+      margin-top: 20px;
+      font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,.7);
+      display: flex; align-items: center; justify-content: center; gap: 20px;
+    }
+    .cta-microcopy span { display: flex; align-items: center; gap: 6px; }
+
+    /* ─── FOOTER ───────────────────────────────────────────── */
+    .footer {
+      background: var(--green-night);
+      padding: 56px 0 32px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand img { height: 36px; filter: brightness(0) invert(1); margin-bottom: 16px; }
+    .footer-brand p {
+      font-size: 14px;
+      color: rgba(255,255,255,.5);
+      max-width: 280px;
+      line-height: 1.6;
+    }
+    .footer-col h4 {
+      font-size: 13px; font-weight: 700;
+      color: rgba(255,255,255,.4);
+      text-transform: uppercase; letter-spacing: .1em;
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a {
+      font-size: 14px; color: rgba(255,255,255,.65);
+      transition: color .15s;
+    }
+    .footer-col a:hover { color: var(--green-light); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 28px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom p {
+      font-size: 13px; color: rgba(255,255,255,.35);
+    }
+    .footer-security {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600;
+      color: var(--green-light);
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero .container    { grid-template-columns: 1fr; }
+      .hero-visual        { display: none; }
+      .problem-grid       { grid-template-columns: 1fr; }
+      .problem-visual     { order: -1; }
+      .steps              { grid-template-columns: 1fr; }
+      .steps::before      { display: none; }
+      .features-grid      { grid-template-columns: 1fr 1fr; }
+      .testimonials       { grid-template-columns: 1fr; }
+      .demo-grid          { grid-template-columns: 1fr; }
+      .footer-top         { grid-template-columns: 1fr 1fr; }
+      .stats-strip .container { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 580px) {
+      .section { padding: 64px 0; }
+      .features-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ──────────────────────────────────────────
+       NAVBAR
+  ─────────────────────────────────────────── -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#" class="nav-logo">
+        <img src="assets/logo.png" alt="VER.O." />
+      </a>
+      <ul class="nav-links">
+        <li><a href="#come-funziona">Come funziona</a></li>
+        <li><a href="#funzionalita">Funzionalità</a></li>
+        <li><a href="#testimonianze">Testimonianze</a></li>
+      </ul>
+      <a href="#cta-finale" class="btn btn-primary nav-cta">
+        Installa gratis
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ──────────────────────────────────────────
+       HERO
+  ─────────────────────────────────────────── -->
+  <section class="hero" id="hero">
+    <div class="hero-mesh"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span></span> Powered by intelligenza artificiale
+        </div>
+        <h1>Il modo più semplice per segnalare una <em>frode online</em></h1>
+        <p class="hero-sub">
+          Proteggi te stesso e gli altri. Fai uno screenshot, inserisci la tua email — VER.O. analizza tutto automaticamente.
+        </p>
+        <div class="hero-actions">
+          <a href="#" class="btn btn-white">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1v10M5 7l4 4 4-4M1 13v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="#3AAF65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Installa l'estensione
+          </a>
+          <a href="#come-funziona" class="btn btn-outline" style="color:white; border-color:rgba(255,255,255,.45);">
+            Scopri come funziona
+          </a>
+        </div>
+        <div class="hero-trust">
+          <div class="hero-trust-icons">
+            <div class="hero-trust-dot">👩</div>
+            <div class="hero-trust-dot">👨</div>
+            <div class="hero-trust-dot">👩‍💼</div>
+            <div class="hero-trust-dot">🧑</div>
+          </div>
+          <span>+12.000 utenti ci proteggono già</span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="browser-mockup">
+          <div class="browser-bar">
+            <div class="browser-dots">
+              <div class="browser-dot"></div>
+              <div class="browser-dot"></div>
+              <div class="browser-dot"></div>
+            </div>
+            <div class="browser-url">marketplace-it.com/prodotti</div>
+          </div>
+          <div class="browser-body">
+            <div class="mock-product">
+              <div class="mock-product-img">👟</div>
+              <div class="mock-product-info">
+                <div class="mock-product-title">Nike Air Max 90 — Originale</div>
+                <div class="mock-product-price">
+                  <strong>€ 29,99</strong> &nbsp;<s>€ 189,00</s>
+                </div>
+                <div class="mock-product-price" style="margin-top:4px;font-size:11px;">⭐⭐⭐⭐⭐ &nbsp;4.9 (312 recensioni)</div>
+              </div>
+              <div class="mock-alert-badge">⚠ Sospetto</div>
+            </div>
+            <div class="mock-ext-popup">
+              <div class="mock-ext-icon">📸</div>
+              <div class="mock-ext-text">
+                <div class="mock-ext-title">VER.O. ha rilevato un'anomalia</div>
+                <div class="mock-ext-sub">Prezzo –84% · Venditore non verificato</div>
+              </div>
+              <button class="mock-ext-btn">Segnala</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────
+       STATS STRIP
+  ─────────────────────────────────────────── -->
+  <div class="stats-strip">
+    <div class="container">
+      <div class="stat-item">
+        <div class="stat-number">12K+</div>
+        <div class="stat-label">Utenti attivi</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">48K+</div>
+        <div class="stat-label">Segnalazioni inviate</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">99%</div>
+        <div class="stat-label">Accuratezza AI</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">&lt;10s</div>
+        <div class="stat-label">Per completare una segnalazione</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────
+       PROBLEMA
+  ─────────────────────────────────────────── -->
+  <section class="section" id="problema">
+    <div class="container">
+      <div class="problem-grid">
+        <div class="problem-content">
+          <span class="section-label">Il problema</span>
+          <h2>Le frodi online sono ovunque. E continuano a crescere.</h2>
+          <p>
+            Nel 2023, oltre <strong>5 milioni di italiani</strong> sono stati vittime di truffe online. Prodotti falsi, negozi fantasma, annunci ingannevoli — il mercato digitale è pieno di pericoli invisibili.
+          </p>
+          <p>
+            Il problema? Segnalare una frode è complicato, lento e spesso inutile. La burocrazia scoraggia anche chi vorrebbe fare la cosa giusta.
+          </p>
+          <div class="problem-stat">
+            <div class="problem-stat-num">€4.2B</div>
+            <p>Il valore delle frodi e-commerce in Europa ogni anno. Noi vogliamo cambiarlo, insieme.</p>
+          </div>
+        </div>
+        <div class="problem-visual">
+          <div class="problem-card">
+            <div class="problem-card-icon">💸</div>
+            <h4>Prezzo troppo basso</h4>
+            <p>Sconti impossibili su prodotti di marca — il segnale più comune di articolo contraffatto.</p>
+          </div>
+          <div class="problem-card">
+            <div class="problem-card-icon">🏬</div>
+            <h4>Negozio sospetto</h4>
+            <p>Store senza storia, recensioni false, nessuna partita IVA verificabile.</p>
+          </div>
+          <div class="problem-card">
+            <div class="problem-card-icon">📦</div>
+            <h4>Prodotto falsificato</h4>
+            <p>Loghi contraffatti, materiali scadenti venduti come originali di lusso.</p>
+          </div>
+          <div class="problem-card">
+            <div class="problem-card-icon">📢</div>
+            <h4>Annuncio ingannevole</h4>
+            <p>Descrizioni mendaci, foto stock, specifiche tecniche inventate.</p>
+          </div>
+          <div class="problem-card highlight">
+            <div class="problem-card-icon">🚨</div>
+            <h4>Con VER.O. basta 1 click per segnalare</h4>
+            <p>Niente moduli lunghi. Niente burocrazia. La tua segnalazione arriva dove deve arrivare in pochi secondi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────
+       COME FUNZIONA
+  ─────────────────────────────────────────── -->
+  <section class="section section--alt" id="come-funziona">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Come funziona</span>
+        <h2>Tre passi. Dieci secondi. Fatto.</h2>
+        <p>Non devi essere un esperto. Chiunque può segnalare una frode in modo semplice e veloce.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">
+            🔍
+            <div class="step-number-badge">1</div>
+          </div>
+          <h3>Hai trovato qualcosa di sospetto?</h3>
+          <p>Attiva l'estensione VER.O. direttamente dal tuo browser. Funziona su qualsiasi sito o marketplace.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">
+            📸
+            <div class="step-number-badge">2</div>
+          </div>
+          <h3>Fai uno screenshot con 1 clic</h3>
+          <p>Cattura la pagina sospetta senza uscire dal browser. Nessun tool esterno, nessun passaggio complicato.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">
+            🤖
+            <div class="step-number-badge">3</div>
+          </div>
+          <h3>L'AI analizza e invia la segnalazione</h3>
+          <p>La nostra intelligenza artificiale esamina il contenuto e invia automaticamente la denuncia. Tu hai già finito.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────
+       FEATURES
+  ─────────────────────────────────────────── -->
+  <section class="section" id="funzionalita">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Funzionalità</span>
+        <h2>Tutto ciò che ti serve, senza nulla di superfluo</h2>
+        <p>VER.O. è progettato per essere potente e invisibile allo stesso tempo — agisce quando serve, scompare quando non serve.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📸</div>
+          <h3>Screenshot con 1 clic</h3>
+          <p>Cattura l'intera pagina o solo la sezione sospetta direttamente dall'estensione. Zero sforzo, massima precisione.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3>Analisi automatica AI</h3>
+          <p>Il nostro modello esamina prezzi, immagini, testo e metadati per identificare pattern fraudolenti con alta accuratezza.</p>
+          <span class="ai-badge">AI-Powered</span>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📧</div>
+          <h3>Solo la tua email</h3>
+          <p>Non serve registrarsi, non serve un profilo. Inserisci solo la tua email per ricevere il report della segnalazione.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>I tuoi dati al sicuro</h3>
+          <p>Con VER.O. tutti i tuoi dati sono protetti e non vengono mai condivisi con terze parti senza il tuo consenso.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Processo in secondi</h3>
+          <p>Dall'attivazione alla segnalazione completata in meno di 10 secondi. Più veloce di qualsiasi modulo tradizionale.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h3>Funziona ovunque</h3>
+          <p>Amazon, eBay, Facebook Marketplace, Vinted, siti sconosciuti — VER.O. è attivo su qualsiasi pagina web tu stia visitando.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────
+       DEMO VISIVA
+  ─────────────────────────────────────────── -->
+  <section class="section section--alt" id="demo">
+    <div class="container">
+      <div class="demo-grid">
+        <div>
+          <span class="section-label">Vedi VER.O. in azione</span>
+          <h2 style="margin-bottom:12px;">Semplicità vera. Non promessa.</h2>
+          <p style="margin-bottom:32px;">Guarda quanto è facile segnalare una frode. Dal sospetto alla denuncia, in tre mosse.</p>
+          <div class="demo-steps">
+            <div class="demo-step active">
+              <div class="demo-step-num">1</div>
+              <div>
+                <h4>Rilevi un'anomalia</h4>
+                <p>Un prezzo impossibile, un venditore senza storia. Il tuo istinto ti dice che c'è qualcosa che non va.</p>
+              </div>
+            </div>
+            <div class="demo-step">
+              <div class="demo-step-num">2</div>
+              <div>
+                <h4>Attivi VER.O. e scatti</h4>
+                <p>Con un clic sull'estensione catturi la prova. Nessuna app aggiuntiva, nessun download separato.</p>
+              </div>
+            </div>
+            <div class="demo-step">
+              <div class="demo-step-num">3</div>
+              <div>
+                <h4>Ricevi la conferma</h4>
+                <p>L'AI analizza, classifica e invia. Tu ricevi l'email di conferma. Il web è già un po' più sicuro.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="demo-screen">
+            <div class="demo-screen-top">
+              <div class="demo-screen-logo">
+                <img src="assets/logo.png" alt="VER.O." />
+              </div>
+            </div>
+            <div class="demo-screen-body">
+              <div class="demo-screen-row success">
+                <div class="demo-screen-row-icon">✅</div>
+                <div>
+                  <div class="demo-screen-row-label">Screenshot acquisito</div>
+                  <div class="demo-screen-row-sub">screenshot_2024-03-12.png · 1.2MB</div>
+                </div>
+              </div>
+              <div class="demo-screen-row success">
+                <div class="demo-screen-row-icon">🤖</div>
+                <div>
+                  <div class="demo-screen-row-label">Analisi AI completata</div>
+                  <div class="demo-screen-row-sub">Frode rilevata · Confidenza 97%</div>
+                </div>
+              </div>
+              <div class="demo-screen-row success">
+                <div class="demo-screen-row-icon">📤</div>
+                <div>
+                  <div class="demo-screen-row-label">Segnalazione inviata</div>
+                  <div class="demo-screen-row-sub">Report inviato alle autorità competenti</div>
+                </div>
+              </div>
+              <div class="demo-screen-row">
+                <div class="demo-screen-row-icon">📧</div>
+                <div>
+                  <div class="demo-screen-row-label">Email di conferma</div>
+                  <div class="demo-screen-row-sub">Invio a: u***@gmail.com</div>
+                </div>
+              </div>
+              <div style="margin-top:20px;padding:16px;background:var(--green-pastel);border-radius:10px;text-align:center;">
+                <div style="font-size:24px;margin-bottom:8px;">🎉</div>
+                <div style="font-size:14px;font-weight:700;color:var(--green-dark);">Segnalazione completata in 8 secondi</div>
+                <div style="font-size:12px;color:var(--green-gray);margin-top:4px);">Grazie per rendere internet più sicuro</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────
+       SOCIAL PROOF
+  ─────────────────────────────────────────── -->
+  <section class="section social-proof" id="testimonianze">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Testimonianze</span>
+        <h2>Chi ci ha già scelto non torna indietro</h2>
+        <p>Migliaia di utenti usano VER.O. ogni giorno per proteggere se stessi e chi li circonda.</p>
+      </div>
+      <div class="testimonials">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "Ho segnalato un negozio falso di scarpe in 10 secondi. Qualche giorno dopo il sito era già offline. Non ci credevo fosse così semplice."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">M</div>
+            <div>
+              <div class="testimonial-name">Marco R.</div>
+              <div class="testimonial-role">Milano · Consumatore</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "Dopo aver ricevuto un prodotto contraffatto, ho usato VER.O. per segnalarlo. Il processo è stato velocissimo e ho ricevuto subito la conferma via email."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">S</div>
+            <div>
+              <div class="testimonial-name">Sara L.</div>
+              <div class="testimonial-role">Roma · Designer</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "Finalmente uno strumento serio contro le truffe online. L'AI è impressionante — ha identificato subito che il venditore era sospetto."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">L</div>
+            <div>
+              <div class="testimonial-name">Luca P.</div>
+              <div class="testimonial-role">Torino · Sviluppatore</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="trust-logos">
+        <div class="trust-logo-item">Il Sole 24 Ore</div>
+        <div class="trust-logo-item">Corriere della Sera</div>
+        <div class="trust-logo-item">Wired Italia</div>
+        <div class="trust-logo-item">TechCrunch</div>
+        <div class="trust-logo-item">La Repubblica</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────
+       CTA FINALE
+  ─────────────────────────────────────────── -->
+  <section class="section cta-final" id="cta-finale">
+    <div class="container">
+      <h2>Unisciti a chi protegge già internet</h2>
+      <p>Gratuito, senza registrazione obbligatoria, senza complicazioni. Solo tu, VER.O. e un web più sicuro.</p>
+      <div class="cta-final-actions">
+        <a href="#" class="btn btn-white">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1v10M5 7l4 4 4-4M1 13v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="#3AAF65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Scarica l'estensione — Gratis
+        </a>
+      </div>
+      <div class="cta-microcopy">
+        <span>✓ Gratuito</span>
+        <span>✓ Senza registrazione obbligatoria</span>
+        <span>✓ I tuoi dati protetti</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────
+       FOOTER
+  ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="VER.O." />
+          <p>La piattaforma di segnalazione frodi online più semplice d'Italia. Con VER.O. tutti i tuoi dati sono al sicuro.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Prodotto</h4>
+          <ul>
+            <li><a href="#">Come funziona</a></li>
+            <li><a href="#">Funzionalità</a></li>
+            <li><a href="#">Scarica l'estensione</a></li>
+            <li><a href="#">Roadmap</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Azienda</h4>
+          <ul>
+            <li><a href="#">Chi siamo</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Stampa</a></li>
+            <li><a href="#">Contatti</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legale</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Termini di Utilizzo</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 VER.O. Tutti i diritti riservati.</p>
+        <div class="footer-security">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4v4c0 3.3 2.5 6.4 6 7 3.5-.6 6-3.7 6-7V4L8 1z" fill="currentColor" opacity=".25"/><path d="M8 1L2 4v4c0 3.3 2.5 6.4 6 7 3.5-.6 6-3.7 6-7V4L8 1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M5.5 8l2 2 3-3" stroke="#1A2E24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Con VER.O. tutti i tuoi dati sono al sicuro
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Demo step interaction
+    const demoSteps = document.querySelectorAll('.demo-step');
+    demoSteps.forEach(step => {
+      step.addEventListener('click', () => {
+        demoSteps.forEach(s => s.classList.remove('active'));
+        step.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
