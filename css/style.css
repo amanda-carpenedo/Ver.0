@@ -92,7 +92,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: end;
-  padding-top: 20px;
+  max-width: 100%;
+  padding: 20px 90px 30px;
 }
 
 /* ===== HERO ===== */
